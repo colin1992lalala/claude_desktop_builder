@@ -1,0 +1,38 @@
+{
+  "_说明": "快捷启动示例配置。改成你自己常用的操作后，另存为同目录下的 quick_launch.json 即可生效（改完刷新页面）。字段含义见操作手册「快捷启动」章节。",
+  "quick_launches": [
+    {
+      "name": "示例：默认 Claude 问答",
+      "kind": "claude",
+      "target": "",
+      "prompt": "帮我梳理一下这个项目的目录结构",
+      "permission": "default",
+      "emoji": "💬",
+      "modelGroup": "auto",
+      "model": "",
+      "id": "ql_example_claude"
+    },
+    {
+      "name": "示例：指定 Agent 启动",
+      "kind": "agent",
+      "target": "claude-desktop-builder",
+      "prompt": "检查仪表盘当前状态",
+      "permission": "default",
+      "emoji": "🤖",
+      "modelGroup": "auto",
+      "model": "",
+      "id": "ql_example_agent"
+    },
+    {
+      "name": "示例：指定 Skill 启动",
+      "kind": "skill",
+      "target": "html-ppt",
+      "prompt": "根据下面的资料做一份演示文稿",
+      "permission": "default",
+      "emoji": "🧩",
+      "modelGroup": "auto",
+      "model": "",
+      "id": "ql_example_skill"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "$schema": "https://anthropic.com/claude-code/plugin.schema.json",
+  "name": "claude-desktop",
+  "version": "1.0.0",
+  "description": "在本机浏览器里可视化浏览 Claude 的 Agent/Skill、发起对话、查看任务进度与聊天记录（零 token 本地工具）。提供维护/部署它的 skill 与构建脚本。",
+  "skills": [
+    "./skills/claude-desktop/"
+  ],
+  "agents": [
+    "./agents/claude-desktop-builder.md"
+  ]
+}
