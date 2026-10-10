@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "claude-desktop-marketplace",
+  "version": "1.0.0",
+  "description": "Claude 桌面仪表盘插件：可视化浏览 Agent/Skill、发起对话、查看任务进度（零 token 本地工具）",
+  "owner": {
+    "name": "colin1992lalala",
+    "email": "colin1992lalala@users.noreply.github.com"
+  },
+  "plugins": [
+    {
+      "name": "claude-desktop",
+      "description": "在本机浏览器里可视化浏览 Claude 的 Agent/Skill、发起对话、查看任务进度与聊天记录（零 token 本地工具）",
+      "source": "./",
+      "version": "1.0.0"
+    }
+  ]
+}
