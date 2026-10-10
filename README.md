@@ -1,77 +1,81 @@
 # Claude Desktop Plugin
 
-一个 Claude Code 插件：在本机浏览器里可视化浏览你的 Agent / Skill、发起 Claude 对话、查看任务进度与聊天记录 —— **纯本地、零 token、零第三方依赖**。
+[中文版](README.zh-CN.md)
 
-## 包含什么
+A **Claude Code plugin** that visualizes your local Agent / Skill library in a browser: browse agents & skills, start Claude conversations, watch running tasks and chat history — **100% local, zero token cost, zero third-party dependencies**.
+
+## What's Inside
 
 ```
 claude-desktop-plugin/
-├── .claude-plugin/plugin.json          # 插件清单
+├── .claude-plugin/
+│   ├── plugin.json               # Plugin manifest
+│   └── marketplace.json          # Marketplace declaration (source: ./)
 ├── skills/
 │   └── claude-desktop/
-│       ├── SKILL.md                    # 告诉 Claude 怎么用/维护仪表盘
-│       └── dist/                       # 可运行工具本体
-│           ├── server.py               #   后端（Python 标准库 http.server）
-│           ├── index.html              #   前端（单文件 HTML/CSS/JS）
-│           ├── 启动Claude桌面.bat       #   一键启动（自动起服务 + 开浏览器）
-│           ├── README.md               #   工具使用文档
+│       ├── SKILL.md              # Tells Claude how to use / maintain the dashboard
+│       └── dist/                 # Runable tool itself
+│           ├── server.py         #   Backend (Python stdlib http.server)
+│           ├── index.html        #   Frontend (single-file HTML/CSS/JS)
+│           ├── 启动Claude桌面.bat #   One-click launcher (start server + open browser)
+│           ├── README.md         #   Tool usage doc
 │           └── quick_launch.example.json
 └── agents/
-    └── claude-desktop-builder.md       # 维护 Agent 完整知识库
+    └── claude-desktop-builder.md # Complete knowledge base for the maintenance agent
 ```
 
-## 安装
+## Install
 
-安装后，Claude 会自动知道这个插件：当你说「打开 Claude 桌面仪表盘」「部署这个仪表盘」「仪表盘 XX 显示不对」时，它会按 `SKILL.md` 操作。
+After install, Claude automatically knows this plugin. Say things like "open the Claude desktop dashboard", "deploy this dashboard", or "dashboard XX isn't showing correctly" and it will act per `SKILL.md`.
 
-**方式一（最稳）：拷贝目录 / 从磁盘加载**
-本方式已在本机实测通过（`plugin list` 识别 + `plugin details` 加载 skill）。
+**Method 1 (recommended): from GitHub marketplace** ✅ verified end-to-end
 ```bash
-# 放到用户 skills 目录，下次会话自动被发现
+# Add the repo as a marketplace, then install
+claude plugin marketplace add colin1992lalala/claude_desktop_builder
+claude plugin install claude-desktop
+```
+
+**Method 2: copy directory / load from disk**
+```bash
+# Copy into your user skills dir — auto-discovered next session
 cp -r claude-desktop-plugin ~/.claude/skills/claude-desktop
 
-# 或任一会话里从磁盘目录加载（临时）
+# Or load from disk in any session (temporary)
 claude --plugin-dir /path/to/claude-desktop-plugin
 ```
 
-**方式二：从 GitHub 安装**
-```bash
-# 先把仓库作为 marketplace 添加
-claude plugin marketplace add colin1992lalala/claude_desktop_builder
-# 再从 marketplace 安装插件
-claude plugin install claude-desktop
-```
-> 插件清单直接由仓库根的 `.claude-plugin/plugin.json` 声明；marketplace 一键安装用法在推送后可完整验证。
+**Method 3: run from the released zip**
+Download `claude-desktop.zip` from **Releases** (or clone the repo), then double-click `启动Claude桌面.bat` inside — no install needed.
 
-**方式三：直接运行 zip**
-用 GitHub **Releases** 或克隆仓库后，直接运行 `skills/claude-desktop/dist/` 里的 `启动Claude桌面.bat` 即可（工具本体随插件分发，无需安装）。
-
-## 使用
+## Usage
 
 ```bash
-# 启动仪表盘（任选）
+# Start the dashboard (either way)
 cd skills/claude-desktop/dist && python server.py --port 8723
-# 或双击 dist\启动Claude桌面.bat
-# 浏览器打开 http://127.0.0.1:8723
+# or double-click dist\启动Claude桌面.bat
+# open http://127.0.0.1:8723 in your browser
 ```
 
-## 功能一览
+Requires Python 3.9+ (stdlib only, no pip installs). Conversation/task features need `claude` on your PATH.
 
-- 🔵 正在运行任务面板（系统任务 + 对话框任务 + 对话会话三源合并）
-- 🤖 / 🧩 浏览全部 Agent / Skill（详情、启动、以之作新对话）
-- 💬 发起 Claude 对话（多标签、流式、切模型/执行方式/权限模式）
-- 📊 token / 成本统计 + 趋势图 + 今日概览
-- 🔍 会话全局全文搜索
-- ⚡ 快捷启动 + 🧩 Prompt 模板库
-- 🗑 站内确认弹窗、🚨 持久错误条、📱 触屏适配、🌗 深浅主题、🔔 桌面通知
+## Features
 
-## 开发 / 维护
+- 🔵 Live task panel (system jobs + dialog tasks + chat sessions, merged from 3 sources)
+- 🤖 / 🧩 Browse all Agents / Skills (details, launch, start a new chat with one)
+- 💬 Start Claude conversations (multi-tab, streaming, switch model / execution mode / permission mode)
+- 📊 Token & cost stats + trend chart + today overview
+- 🔍 Global full-text search across all conversations
+- ⚡ Quick Launch + 🧩 Prompt template library
+- 🗑 In-app confirm dialogs, 🚨 persistent error bar, 📱 touch support, 🌗 light/dark theme, 🔔 desktop notifications
 
-改 `dist/` 里的 `server.py` / `index.html` 后，重启服务生效。改完跑：
-- 后端：`python -m py_compile server.py` + `curl http://127.0.0.1:8723/api/overview` 看 counts
-- 前端：浏览器打开确认无 JS 报错、卡片/会话数量正确
-发布新版时递增 `.claude-plugin/plugin.json` 的 `version`。
+## Development / Maintenance
 
-## 许可证
+Edit `dist/server.py` or `dist/index.html`, restart the server to apply.
 
-仅供个人/团队内部参考使用。
+- Backend: `python -m py_compile server.py` + `curl http://127.0.0.1:8723/api/overview` to check counts
+- Frontend: open in browser, confirm no JS errors and card/session counts are correct
+- Bump the `version` in `.claude-plugin/plugin.json` for each new release
+
+## License
+
+For personal / internal team reference only.
